@@ -6,8 +6,7 @@
         class="elevation-1"
     >
         <template v-slot:[`item.actions`]="{ item }">
-            <v-btn small color="primary">查看</v-btn>
-            <v-btn small color="error" text @click="deleteItem(item)">删除</v-btn>
+            <v-btn small color="primary" @click="viewReport(item)">查看</v-btn>
         </template>
     </v-data-table>
 </template>
@@ -23,20 +22,28 @@ export default {
                     sortable: false,
                     value: 'id',
                 },
-                { text: '任务描述', value: 'describe' },
+                { text: '任务描述', value: 'remark' },
                 { text: '操作', value: 'actions' },
             ],
-            desserts: [
-                {
-                    id: 1,
-                    describe: 159,
-                },
-                {
-                    id: 2,
-                    describe: 237,
-                },
-            ],
+            desserts: [],
         }
     },
+
+    created() {
+        this.initialize()
+    },
+
+    methods: {
+        initialize() {
+            this.$api.task.get().then(res => {
+                console.log(res.data['data'])
+                this.desserts = res.data['data']
+            })
+        },
+
+        viewReport(item) {
+            window.location.href = item.report
+        },
+    }
 }
 </script>

@@ -220,6 +220,15 @@ export default {
 
         excuteTask() {
             console.log(this.selected)
+            this.$api.task.post({'nodeids':this.selected}).then(res =>{
+                    console.log(res.data)
+                    if (res.data['error'] === 0){
+                        alert('执行成功，请前往任务页面查看')
+                    }
+                    else{
+                        alert('执行失败！！！')
+                    }
+            })
         }
     },
 }
